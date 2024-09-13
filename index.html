@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Welcome Gold Voucher</title>
+    <title>Welcome Gold Voucher Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome Gold Voucher Generator</h1>
+        <h1>Generate Welcome Gold Voucher</h1>
         <form id="voucherForm">
-            <label for="cardNumber">Enter Card Number:</label>
-            <input type="text" id="cardNumber" name="cardNumber" required placeholder="Enter your card number">
+            <label for="cardNumber">Card Number:</label>
+            <input type="text" id="cardNumber" name="cardNumber" required placeholder="Enter card number">
+
             <button type="submit">Generate Voucher</button>
         </form>
-        <div id="voucherResult" class="hidden">
-            <h2>Voucher Generated Successfully!</h2>
-            <p id="voucherCode"></p>
-        </div>
-        <div id="errorMessage" class="hidden">
-            <h2>Error Generating Voucher</h2>
-            <p id="errorDetails"></p>
-        </div>
+        <div id="result" class="result"></div>
     </div>
 
     <script src="script.js"></script>
