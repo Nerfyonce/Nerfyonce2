@@ -1,40 +1,35 @@
-document.getElementById('generateBtn').addEventListener('click', async function() {
-    // Get the card code input by the user
-    const cardCode = document.getElementById('cardCodeInput').value;
+document.getElementById('voucherForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-    // If no card code is provided, show an error message
-    if (!cardCode) {
-        document.getElementById('output').textContent = 'Please enter a card code.';
-        return;
-    }
+    const cardNumber = document.getElementById('cardNumber').value;
+    const voucherResult = document.getElementById('voucherResult');
+    const errorMessage = document.getElementById('errorMessage');
+    const voucherCodeElement = document.getElementById('voucherCode');
+    const errorDetailsElement = document.getElementById('errorDetails');
 
-    // Construct API URL with the card code
-    const apiUrl = `https://api.teeg.cloud/vouchers/campaigns/RIXI59A/cards/${cardCode}?tz=MIDQRS5R5K`;
-    
-    const bearerToken = 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Imp0X1htek9Od2NqTlg0VFhjTjRvMUhNM2k5aUtpczlpSGgxYTllcEdENGsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiI2ZjcyYzI3NS01MWI5LTQ2M2ItODQxMS0zYjA0OTM2Y2UxODkiLCJpc3MiOiJodHRwczovL2lkZW50aXR5LnRlZWcuY2xvdWQvYWYyMWUwNTYtMGEyMS00ZDgzLWI1ZGQtNDRjNDM5ZmE4ZjMwL3YyLjAvIiwiZXhwIjoxNzI2MTY1NTQzLCJuYmYiOjE3MjYxNjQ2NDMsImlwQWRkcmVzcyI6IjE4MC4yNDguMTYuMTE5IiwiaXBhZGRyIjoiMTgwLjI0OC4xNi4xMTkiLCJvaWQiOiIwN2JkZmNlYy0wNmQ0LTQwYmMtOTAzMC1lZjEyMTVkYWFhMzYiLCJzdWIiOiIwN2JkZmNlYy0wNmQ0LTQwYmMtOTAzMC1lZjEyMTVkYWFhMzYiLCJwaG9uZSI6Iis2MjgyMTMxMTA2NjA3IiwidGlkIjoiYWYyMWUwNTYtMGEyMS00ZDgzLWI1ZGQtNDRjNDM5ZmE4ZjMwIiwibm9uY2UiOiI2MmIyMmVhYS0wZmYxLTRkMmItOTBjMi0wZWJhMGU2MjNkZDUiLCJzY3AiOiJhbGwtYXBpcyIsImF6cCI6ImNhMGU0ODY4LTE3N2ItNDlkMi04YzYzLWYxMDQ0ZTNlZGM2MyIsInZlciI6IjEuMCIsImlhdCI6MTcyNjE2NDY0M30.Kx1Riog6idA2Sx_tkCbSEaSuzMV0zuJxRDiDrPAoZPLNxL3gjuc-jRIgXYOg9gbCIzZSxmhhtXC9lW-_KswYUpj74P8VxCugAGOOE2KWI2yT_4kq1gnxk9oZ6BTC8H_K91AIPUWSjO1zcWyPVdFKY7ah5JnlXWRJXpmr0MRPAPiy8sNsY1gfjk2pivv0Jd9Eoil0e828LFiH_28SpEXX8DgIAhqUaoWPzZv4ZssIQuIWXdC_oTSBQE7NzE8Wd7L_kbutMa6lqaFuCdVsXyK7pXhBoJpeHogjBWUDC4SR7EWL9KPIabxjrm5XmAhMqvDcPS0M3GK9VM_y8KkL1yK-7w'
+    voucherResult.classList.add('hidden');
+    errorMessage.classList.add('hidden');
+
+    const apiKey = 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Imp0X1htek9Od2NqTlg0VFhjTjRvMUhNM2k5aUtpczlpSGgxYTllcEdENGsiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiI2ZjcyYzI3NS01MWI5LTQ2M2ItODQxMS0zYjA0OTM2Y2UxODkiLCJpc3MiOiJodHRwczovL2lkZW50aXR5LnRlZWcuY2xvdWQvYWYyMWUwNTYtMGEyMS00ZDgzLWI1ZGQtNDRjNDM5ZmE4ZjMwL3YyLjAvIiwiZXhwIjoxNzI2MjUzMjQ1LCJuYmYiOjE3MjYyNTIzNDUsImlwQWRkcmVzcyI6IjE4MC4yNDguMTYuMTE5IiwiaXBhZGRyIjoiMTgwLjI0OC4xNi4xMTkiLCJvaWQiOiIwN2JkZmNlYy0wNmQ0LTQwYmMtOTAzMC1lZjEyMTVkYWFhMzYiLCJzdWIiOiIwN2JkZmNlYy0wNmQ0LTQwYmMtOTAzMC1lZjEyMTVkYWFhMzYiLCJwaG9uZSI6Iis2MjgyMTMxMTA2NjA3IiwidGlkIjoiYWYyMWUwNTYtMGEyMS00ZDgzLWI1ZGQtNDRjNDM5ZmE4ZjMwIiwibm9uY2UiOiI1NDlmNDdhMy03NDc3LTQzYTUtODFiOC04YmQzYzdiZmUzZWQiLCJzY3AiOiJhbGwtYXBpcyIsImF6cCI6ImNhMGU0ODY4LTE3N2ItNDlkMi04YzYzLWYxMDQ0ZTNlZGM2MyIsInZlciI6IjEuMCIsImlhdCI6MTcyNjI1MjM0NX0.rWv_bDJj5wXV4Lzp5qndmLa4Da0PqERBlJ3gMnSWz2jcBB41fZuiRv4DF_uv9Y-2sb097DFzvKeqkNf0tO6qWE0Eyk0OgUgjnTiWLaZMwza-tSbZfAwhRtf7lQq9-Un6q5NSh77qmf0TScU0iQIMdwLbHt7b91TxeyGgWIEPTmNJZJkog5jarhazMcKVRWyOTl4oD2m9_E5Kh7QzV5_sTZnTDtoEtUDNXCK0jG77A5Fg1ye4gfU35yIWiaAk40aBQ9AUcbyG_4BFy6RrveVX_R9Ckf94hmsVmcnQC_kmY3HBOd22qQanJAXKPAA5c7Ltx8cLtyblpCy083XvJRMTig';
 
     try {
-        // Fetch API request
-        const response = await fetch(apiUrl, {
+        const response = await fetch(`https://api.teeg.cloud/vouchers/campaigns/RIXI59A/cards/${cardNumber}?tz=MIDQRS5R5K`, {
             method: 'GET',
             headers: {
-                'Authorization': bearerToken,
+                'Authorization': apiKey,
                 'Content-Type': 'application/json'
             }
         });
 
-        // Error handling for unsuccessful response
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Error: ${response.status}`);
         }
 
-        // Parsing the response to JSON format
         const data = await response.json();
-        
-        // Displaying the result in the output section
-        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        voucherCodeElement.textContent = `Voucher Code: ${data.voucherCode}`;
+        voucherResult.classList.remove('hidden');
     } catch (error) {
-        // Error handling for any request failure
-        document.getElementById('output').textContent = `Error: ${error.message}`;
+        errorDetailsElement.textContent = error.message;
+        errorMessage.classList.remove('hidden');
     }
 });
